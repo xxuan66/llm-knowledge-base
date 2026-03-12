@@ -279,14 +279,12 @@ visualize_positional_encoding()
 ### 思考题
 5. **架构改进**：如果需要处理超长序列（如 10 万 token），可以对 Transformer 做哪些改进？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)**
+1. **LLMs-from-scratch**
    - 相关章节：第 4 章《Transformer 架构》
-2. **[Happy-LLM](https://github.com/KMnO4-zx/Happy-LLM)**
+2. **Happy-LLM**
    - 相关章节：第二讲《Transformer 架构详解》
-3. **[The Annotated Transformer](https://nlp.seas.harvard.edu/2018/04/03/attention.html)**
+3. **The Annotated Transformer**
    - Transformer 注释版实现
 
 ### 经典论文
@@ -295,11 +293,11 @@ visualize_positional_encoding()
 - "Improving Language Understanding by Generative Pre-Training" (Radford et al., 2018)
 
 ### 可视化资源
-- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/)
-- [Transformer Visualization](https://github.com/jessevig/bertviz)
-- [LLM Visualization](https://bbycroft.net/llm)
+- The Illustrated Transformer
+- Transformer Visualization
+- LLM Visualization
 
 ### 实现参考
-- [Hugging Face Transformers](https://github.com/huggingface/transformers)
-- [PyTorch Transformer Tutorial](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
-- [TensorFlow Transformer](https://www.tensorflow.org/text/tutorials/transformer)
+- Hugging Face Transformers
+- PyTorch Transformer Tutorial
+- TensorFlow Transformer
