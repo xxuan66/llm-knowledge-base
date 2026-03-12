@@ -128,14 +128,12 @@ print("生成的 token 序列：", output)
 ### 思考题
 5. **未来展望**：你认为大语言模型未来会如何发展？可能会面临哪些挑战？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[Happy-LLM](https://github.com/KMnO4-zx/Happy-LLM)** - 系统化 LLM 学习教程
+1. **Happy-LLM** - 系统化 LLM 学习教程
    - 相关章节：第一讲《什么是大语言模型》
-2. **[LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)** - 从零构建大语言模型
+2. **LLMs-from-scratch** - 从零构建大语言模型
    - 相关章节：第 1 章《理解大语言模型》
-3. **[Awesome-LLM](https://github.com/Hannibal046/Awesome-LLM)** - LLM 资源大全
+3. **Awesome-LLM** - LLM 资源大全
    - 相关分类：LLM 基础概念
 
 ### 在线课程
@@ -147,5 +145,5 @@ print("生成的 token 序列：", output)
 - "Language Models are Few-Shot Learners" (Brown et al., 2020) - GPT-3 论文
 
 ### 其他资源
-- [The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/) - Transformer 图解
-- [LLM Visualization](https://bbycroft.net/llm) - LLM 交互式可视化
+- The Illustrated Transformer - Transformer 图解
+- LLM Visualization - LLM 交互式可视化
