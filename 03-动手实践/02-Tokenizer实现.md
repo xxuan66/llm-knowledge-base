@@ -451,14 +451,12 @@ if __name__ == "__main__":
 ### 思考题
 5. **架构设计**：如果要设计一个支持 100 种语言的 Tokenizer，需要考虑哪些问题？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)**
+1. **LLMs-from-scratch**
    - 相关章节：第 2 章《Tokenizer 实现》
-2. **[Happy-LLM](https://github.com/KMnO4-zx/Happy-LLM)**
+2. **Happy-LLM**
    - 相关章节：实践部分《Tokenizer 实现》
-3. **[SentencePiece](https://github.com/google/sentencepiece)**
+3. **SentencePiece**
    - Google 的 SentencePiece 实现
 
 ### 重要论文
@@ -467,11 +465,11 @@ if __name__ == "__main__":
 - "SentencePiece: A simple and language independent subword tokenizer" (Kudo & Richardson, 2018)
 
 ### 工具与库
-- [Hugging Face Tokenizers](https://github.com/huggingface/tokenizers) - 高性能 tokenizer 库
-- [SentencePiece](https://github.com/google/sentencepiece) - Google 的 tokenizer
-- [tiktoken](https://github.com/openai/tiktoken) - OpenAI 的 BPE tokenizer
+- Hugging Face Tokenizers - 高性能 tokenizer 库
+- SentencePiece - Google 的 tokenizer
+- tiktoken - OpenAI 的 BPE tokenizer
 
 ### 学习资源
-- [Byte Pair Encoding Explained](https://leimao.github.io/blog/Byte-Pair-Encoding/) - BPE 图解
-- [The Illustrated Word2vec](https://jalammar.github.io/illustrated-word2vec/) - 子词可视化
-- [Hugging Face Tokenizers Course](https://huggingface.co/course/chapter2/4) - Tokenizer 教程
+- Byte Pair Encoding Explained - BPE 图解
+- The Illustrated Word2vec - 子词可视化
+- Hugging Face Tokenizers Course - Tokenizer 教程
