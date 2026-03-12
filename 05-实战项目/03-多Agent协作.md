@@ -424,10 +424,10 @@ class HumanInTheLoopOrchestrator(Orchestrator):
 
 ## 扩展阅读
 
-- [CrewAI 文档](https://docs.crewai.com/)
-- [LangGraph 教程](https://python.langchain.com/docs/langgraph)
-- [AutoGen 论文](https://arxiv.org/abs/2308.08155)
-- [OpenClaw Agent 框架](https://github.com/openclaw/openclaw)
+- CrewAI 文档
+- LangGraph 教程
+- AutoGen 论文
+- OpenClaw Agent 框架
 
 ---
 
