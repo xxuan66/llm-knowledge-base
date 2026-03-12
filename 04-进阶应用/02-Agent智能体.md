@@ -512,13 +512,11 @@ if __name__ == "__main__":
 ### 思考题
 5. **未来方向**：Agent 技术未来可能的发展方向是什么？如何实现真正的自主智能体？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[AutoGPT](https://github.com/Significant-Gravitas/AutoGPT)** - 自主 Agent
-2. **[BabyAGI](https://github.com/yoheinakajima/babyagi)** - 简单 Agent
-3. **[LangChain](https://github.com/langchain-ai/langchain)** - Agent 框架
-4. **[MetaGPT](https://github.com/geekan/MetaGPT)** - 多 Agent 协作
+1. **AutoGPT** - 自主 Agent
+2. **BabyAGI** - 简单 Agent
+3. **LangChain** - Agent 框架
+4. **MetaGPT** - 多 Agent 协作
 
 ### 重要论文
 - "ReAct: Synergizing Reasoning and Acting in Language Models" (Yao et al., 2022)
@@ -527,11 +525,11 @@ if __name__ == "__main__":
 - "CAMEL: Communicative Agents for "Mind" Exploration" (Li et al., 2023)
 
 ### 工具与框架
-- [LangChain Agents](https://python.langchain.com/docs/modules/agents/) - Agent 开发
-- [CrewAI](https://github.com/joaomdmoura/crewAI) - 多 Agent 协作
-- [AutoGen](https://github.com/microsoft/autogen) - 多 Agent 对话
+- LangChain Agents - Agent 开发
+- CrewAI - 多 Agent 协作
+- AutoGen - 多 Agent 对话
 
 ### 学习资源
-- [LangChain Agent Tutorial](https://python.langchain.com/docs/use_cases/agent_simulations)
-- [AutoGPT Guide](https://github.com/Significant-Gravitas/AutoGPT/wiki)
-- [Agent Design Patterns](https://lilianweng.github.io/posts/2023-06-23-agent/) - Agent 设计模式
+- LangChain Agent Tutorial
+- AutoGPT Guide
+- Agent Design Patterns - Agent 设计模式
