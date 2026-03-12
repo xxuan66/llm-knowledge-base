@@ -359,27 +359,25 @@ if __name__ == "__main__":
 ### 思考题
 5. **架构改进**：如果要处理更长的序列（如 4096 token），需要对模型做哪些改进？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch)**
+1. **LLMs-from-scratch**
    - 相关章节：第 2-4 章《从零构建 LLM》
-2. **[Happy-LLM](https://github.com/KMnO4-zx/Happy-LLM)**
+2. **Happy-LLM**
    - 相关章节：实践部分《搭建自己的 LLM》
-3. **[minGPT](https://github.com/karpathy/minGPT)**
+3. **minGPT**
    - 极简 GPT 实现
 
 ### 实现参考
-- [PyTorch Transformer Tutorial](https://pytorch.org/tutorials/beginner/transformer_tutorial.html)
-- [nanoGPT](https://github.com/karpathy/nanoGPT) - 最小化 GPT 实现
-- [GPT from scratch](https://github.com/karpathy/ng-video-lecture) - Andrej Karpathy 教程
+- PyTorch Transformer Tutorial
+- nanoGPT - 最小化 GPT 实现
+- GPT from scratch - Andrej Karpathy 教程
 
 ### 工具与库
-- [PyTorch](https://pytorch.org/) - 深度学习框架
-- [Hugging Face Transformers](https://github.com/huggingface/transformers)
-- [torch.compile](https://pytorch.org/tutorials/intermediate/torch_compile_tutorial.html) - 加速训练
+- PyTorch - 深度学习框架
+- Hugging Face Transformers
+- torch.compile - 加速训练
 
 ### 学习资源
-- [The Illustrated GPT-2](https://jalammar.github.io/illustrated-gpt2/) - GPT-2 图解
-- [Building a GPT](https://www.youtube.com/watch?v=kCc8FmEb1nY) - Andrej Karpathy 视频
-- [Transformer Math 101](https://blog.eleuther.ai/transformer-math/) - Transformer 数学基础
+- The Illustrated GPT-2 - GPT-2 图解
+- Building a GPT - Andrej Karpathy 视频
+- Transformer Math 101 - Transformer 数学基础
