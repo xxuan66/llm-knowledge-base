@@ -426,13 +426,11 @@ if __name__ == "__main__":
 ### 思考题
 5. **前沿方向**：RAG 未来可能的发展方向是什么？多模态 RAG、Agentic RAG 等新范式有什么特点？
 
-## 参考资料
-
 ### GitHub 热门资源
-1. **[LangChain](https://github.com/langchain-ai/langchain)** - RAG 框架
-2. **[LlamaIndex](https://github.com/run-llama/llama_index)** - 数据框架
-3. **[Chroma](https://github.com/chroma-core/chroma)** - 向量数据库
-4. **[RAGAS](https://github.com/explodinggradients/ragas)** - RAG 评估
+1. **LangChain** - RAG 框架
+2. **LlamaIndex** - 数据框架
+3. **Chroma** - 向量数据库
+4. **RAGAS** - RAG 评估
 
 ### 重要论文
 - "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks" (Lewis et al., 2020)
@@ -440,12 +438,12 @@ if __name__ == "__main__":
 - "Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection" (Asai et al., 2023)
 
 ### 工具与框架
-- [Hugging Face](https://huggingface.co/) - 嵌入模型和 LLM
-- [Pinecone](https://www.pinecone.io/) - 托管向量数据库
-- [Weaviate](https://weaviate.io/) - 向量搜索引擎
-- [FAISS](https://github.com/facebookresearch/faiss) - 向量相似度搜索
+- Hugging Face - 嵌入模型和 LLM
+- Pinecone - 托管向量数据库
+- Weaviate - 向量搜索引擎
+- FAISS - 向量相似度搜索
 
 ### 学习资源
-- [LangChain RAG Tutorial](https://python.langchain.com/docs/use_cases/question_answering/)
-- [LlamaIndex RAG Guide](https://docs.llamaindex.ai/en/stable/understanding/rag/)
-- [RAG Best Practices](https://www.pinecone.io/learn/series/rag/) - Pinecone 系列教程
+- LangChain RAG Tutorial
+- LlamaIndex RAG Guide
+- RAG Best Practices - Pinecone 系列教程
