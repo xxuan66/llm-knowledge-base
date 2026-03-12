@@ -74,12 +74,12 @@ llm-knowledge-base/
 
 ## 资源说明
 
-本知识库基于以下 GitHub 热门资源整理：
-- [Happy-LLM](https://github.com/KMnO4-zx/Happy-LLM) - 系统化 LLM 学习教程
-- [LLMs-from-scratch](https://github.com/rasbt/LLMs-from-scratch) - 从零构建大语言模型
-- [Awesome-LLM](https://github.com/Hannibal046/Awesome-LLM) - LLM 资源大全
-- [LLM-Course](https://github.com/mlabonne/llm-course) - 大模型学习路线
-- 及其他开源项目
+本知识库参考了业界主流学习资源和技术文档，结合实践经验整理而成。
+
+**推荐学习资源：**
+- Hugging Face 官方文档
+- 各模型官方技术报告
+- 顶级会议论文（NeurIPS, ICML, ACL 等）
 
 ## 贡献
 
