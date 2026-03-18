@@ -88,3 +88,34 @@ llm-knowledge-base/
 ---
 
 **开始学习**：选择左侧目录中的文档，开启你的 LLM 学习之旅！
+
+## 📝 学习建议
+
+### 初学者路径（4 周）
+
+1. **第 1 周：** 基础入门 → 理解 Transformer 和注意力机制
+2. **第 2 周：** 核心原理 → 掌握预训练和微调流程
+3. **第 3 周：** 动手实践 → 完成第一个微调项目
+4. **第 4 周：** 进阶应用 → 尝试 RAG 和 Agent 开发
+
+### 进阶路径（2 周）
+
+1. **第 1 周：** 主流开源模型部署 → 实际运行 Qwen/Llama
+2. **第 2 周：** 实战项目 → 构建完整的 LLM 应用
+
+---
+
+## 🔗 推荐资源
+
+- [Hugging Face 课程](https://huggingface.co/learn) - 免费 NLP/LLM 课程
+- [LangChain 文档](https://python.langchain.com/docs/) - LLM 应用框架
+- [vLLM 文档](https://docs.vllm.ai/) - 高性能推理引擎
+- [OpenAI Cookbook](https://cookbook.openai.com/) - 实用代码示例
+
+---
+
+## 🆕 2026-03-18 更新
+
+- ✅ 新增初学者和进阶学习路径
+- ✅ 添加推荐学习资源链接
+- ✅ 优化 README 结构
