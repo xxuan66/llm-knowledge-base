@@ -1,0 +1,210 @@
+# MCP (Model Context Protocol) 完全指南
+
+> 📚 本章节提供 MCP 协议的完整学习资料，从基础概念到实战开发
+
+---
+
+## 📖 目录
+
+### [01-MCP 架构与核心概念](./01-MCP 架构与核心概念.md)
+**适合人群：** 初学者、想了解 MCP 是什么的开发者
+
+**你将学到：**
+- ✅ MCP 是什么，为什么重要
+- ✅ MCP 架构的三个核心角色（Host、Client、Server）
+- ✅ 数据层和传输层的工作原理
+- ✅ 三大核心原语：Tools、Resources、Prompts
+- ✅ MCP 生命周期管理和通知机制
+
+**阅读时间：** 15 分钟
+
+---
+
+### [02-MCP 服务器开发实战](./02-MCP 服务器开发实战.md)
+**适合人群：** 想构建 MCP 服务器的 Python 开发者
+
+**你将学到：**
+- ✅ 搭建 Python MCP 开发环境
+- ✅ 使用 FastMCP 创建天气查询服务器
+- ✅ 定义工具、资源、提示
+- ✅ 配置 Claude Desktop 连接服务器
+- ✅ 日志处理和调试技巧
+
+**实战项目：** 天气查询 MCP 服务器（支持查询天气警报和预报）
+
+**阅读时间：** 30 分钟 + 编码练习
+
+---
+
+### [03-MCP 客户端开发指南](./03-MCP 客户端开发指南.md)
+**适合人群：** 想构建 MCP 客户端应用或自定义 Host 的开发者
+
+**你将学到：**
+- ✅ 使用 Python MCP SDK 构建客户端
+- ✅ 连接本地和远程 MCP 服务器
+- ✅ 发现和调用服务器工具
+- ✅ 实现交互式客户端
+- ✅ 处理通知和错误
+
+**实战项目：** 交互式 MCP 客户端（支持菜单操作）
+
+**阅读时间：** 30 分钟 + 编码练习
+
+---
+
+### [04-MCP 实际应用场景](./04-MCP 实际应用场景.md)
+**适合人群：** 想在真实项目中使用 MCP 的开发者
+
+**你将学到：**
+- ✅ 企业数据集成的实现方案
+- ✅ 开发工具链集成（GitHub、CI/CD）
+- ✅ 个人助手集成（日历、邮件、笔记）
+- ✅ 跨平台自动化工作流
+- ✅ 设计模式和最佳实践
+- ✅ 安全考虑和性能优化
+
+**实战案例：**
+- 企业数据库查询服务器
+- GitHub 工具集成（Issue、PR、CI 状态）
+- 日历管理服务器
+- Notion + Slack 桥接
+
+**阅读时间：** 40 分钟
+
+---
+
+## 🎯 学习路径推荐
+
+### 入门路线（零基础）
+```
+01 架构与概念 → 02 服务器开发 → 03 客户端开发 → 04 实际应用场景
+```
+**总耗时：** 约 2-3 小时
+
+### 快速上手（有基础）
+```
+01 架构与概念 → 02 服务器开发 → 04 实际应用场景
+```
+**总耗时：** 约 1-1.5 小时
+
+### 专题突破（按需学习）
+- 想构建服务器 → 直接看 [02](./02-MCP 服务器开发实战.md)
+- 想集成到应用 → 直接看 [03](./03-MCP 客户端开发指南.md)
+- 想找灵感 → 直接看 [04](./04-MCP 实际应用场景.md)
+
+---
+
+## 🛠️ 开发环境准备
+
+### 系统要求
+- Python 3.10+
+- Node.js 16+（可选，用于 TypeScript 开发）
+
+### 必装工具
+
+```bash
+# 1. 安装 uv（Python 包管理工具）
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. 安装 MCP Inspector（调试工具）
+npm install -g @modelcontextprotocol/inspector
+
+# 3. 验证安装
+uv --version
+npx @modelcontextprotocol/inspector --version
+```
+
+### 推荐 IDE 插件
+- **VS Code** - 官方支持 MCP
+- **Cursor** - AI 代码编辑器，内置 MCP 支持
+
+---
+
+## 📚 核心概念速查
+
+### MCP 是什么？
+> MCP = AI 应用的 USB-C 接口，标准化连接 AI 应用与外部系统
+
+### 三个核心角色
+| 角色 | 职责 | 示例 |
+|------|------|------|
+| **Host** | AI 应用程序，管理客户端 | Claude Desktop、VS Code |
+| **Client** | 维护与服务器连接 | MCP SDK 客户端实例 |
+| **Server** | 提供上下文数据 | 天气服务器、数据库服务器 |
+
+### 三大原语
+| 原语 | 用途 | 示例 |
+|------|------|------|
+| **Tools** | 可执行的操作 | 查询天气、创建 Issue |
+| **Resources** | 数据源 | 文件内容、数据库 schema |
+| **Prompts** | 交互模板 | 系统提示、few-shot 示例 |
+
+### 两种传输方式
+| 传输 | 用途 | 特点 |
+|------|------|------|
+| **Stdio** | 本地通信 | 高性能、无网络开销 |
+| **HTTP** | 远程通信 | 支持 OAuth、可跨网络 |
+
+---
+
+## 🔗 外部资源
+
+### 官方文档
+- [MCP 官方文档](https://modelcontextprotocol.io)
+- [MCP 规范](https://modelcontextprotocol.io/specification)
+- [MCP Python SDK](https://github.com/modelcontextprotocol/python-sdk)
+- [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
+
+### 参考实现
+- [官方参考服务器](https://github.com/modelcontextprotocol/servers)
+- [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+
+### 社区
+- [MCP Discord 社区](https://discord.gg/modelcontextprotocol)
+- [MCP 官方 Twitter](https://twitter.com/contextprotocol)
+
+---
+
+## 💡 学习建议
+
+### 1. 先理解概念
+不要急于写代码，先理解 MCP 的架构和核心概念。推荐阅读 [01-MCP 架构与核心概念](./01-MCP 架构与核心概念.md)。
+
+### 2. 动手实践
+MCP 是实践性很强的技术，一定要动手写代码。从简单的天气服务器开始，逐步增加功能。
+
+### 3. 使用调试工具
+MCP Inspector 是官方提供的调试工具，可以查看 JSON-RPC 消息流，非常适合学习和调试。
+
+### 4. 参考官方示例
+官方参考服务器提供了多种场景的实现，可以直接参考或复用。
+
+### 5. 加入社区
+MCP 是快速发展的技术，加入社区可以获取最新动态和帮助。
+
+---
+
+## 🚀 下一步
+
+完成本章节学习后，你可以：
+
+1. **构建自己的 MCP 服务器** - 将你的 API、数据库、工具封装成 MCP 服务器
+2. **集成到现有应用** - 让你的应用支持 MCP，连接丰富的生态系统
+3. **参与开源贡献** - 为 MCP SDK 或参考服务器贡献代码
+4. **分享你的经验** - 在社区分享你的 MCP 项目和经验
+
+---
+
+## 📝 更新日志
+
+- **2026-03-22** - 初始版本，包含完整的 MCP 教程
+  - 架构与核心概念
+  - 服务器开发实战
+  - 客户端开发指南
+  - 实际应用场景
+
+---
+
+**📖 开始学习：** [01-MCP 架构与核心概念](./01-MCP 架构与核心概念.md)
+
+**💬 有问题？** 欢迎在 GitHub Issues 提问或加入 Discord 社区讨论！
