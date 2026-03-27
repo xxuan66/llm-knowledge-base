@@ -631,6 +631,310 @@ async def rate_limited_tool(user_id: str) -> str:
 
 ---
 
+## 场景配置模板
+
+### 1. 企业级 MCP 服务器配置
+
+**文件：** `mcp_server_config.yaml`
+
+```yaml
+server:
+  name: "enterprise-mcp-server"
+  version: "1.0.0"
+  description: "企业级 MCP 服务器配置"
+
+# 服务器能力声明
+capabilities:
+  tools: true
+  resources: true
+  prompts: true
+  sampling: false
+
+# 工具配置
+tools:
+  database:
+    enabled: true
+    max_connections: 10
+    timeout: 30
+    retry_attempts: 3
+  
+  api_integration:
+    enabled: true
+    rate_limit: 100  # 每分钟请求数
+    cache_ttl: 300   # 缓存时间（秒）
+
+# 资源配置
+resources:
+  schema_files:
+    path: "./schemas"
+    watch_changes: true
+  
+  documentation:
+    path: "./docs"
+    format: "markdown"
+
+# 安全配置
+security:
+  authentication:
+    type: "bearer_token"
+    token_env: "MCP_AUTH_TOKEN"
+  
+  authorization:
+    role_based: true
+    roles:
+      admin: ["*"]  # 所有权限
+      user: ["read", "query"]
+      guest: ["read"]
+  
+  rate_limiting:
+    enabled: true
+    max_requests_per_minute: 60
+    max_requests_per_hour: 1000
+
+# 日志配置
+logging:
+  level: "info"
+  format: "json"
+  output: "./logs/mcp-server.log"
+  rotation: "daily"
+
+# 监控配置
+monitoring:
+  enabled: true
+  metrics_port: 9090
+  health_check: "/health"
+```
+
+### 2. 开发环境 MCP 配置
+
+**文件：** `mcp_dev_config.json`
+
+```json
+{
+  "server": {
+    "name": "dev-mcp-server",
+    "debug": true,
+    "hot_reload": true
+  },
+  "tools": {
+    "code_analysis": {
+      "enabled": true,
+      "languages": ["python", "javascript", "typescript"],
+      "linters": {
+        "python": "ruff",
+        "javascript": "eslint"
+      }
+    },
+    "git_integration": {
+      "enabled": true,
+      "auto_commit": false,
+      "commit_message_template": "feat: {description}"
+    },
+    "test_runner": {
+      "enabled": true,
+      "framework": "pytest",
+      "coverage_threshold": 80
+    }
+  },
+  "resources": {
+    "project_files": {
+      "include": ["**/*.py", "**/*.js", "**/*.ts", "**/*.md"],
+      "exclude": ["node_modules/**", "__pycache__/**", ".git/**"]
+    }
+  },
+  "development": {
+    "auto_reload": true,
+    "verbose_logging": true,
+    "mock_external_apis": true
+  }
+}
+```
+
+### 3. 个人助手 MCP 配置
+
+**文件：** `personal_assistant_config.yaml`
+
+```yaml
+server:
+  name: "personal-assistant"
+  description: "个人 AI 助手 MCP 服务器"
+
+# 个人数据源配置
+data_sources:
+  calendar:
+    provider: "google_calendar"
+    scopes: ["https://www.googleapis.com/auth/calendar.readonly"]
+    sync_interval: 300  # 5分钟同步一次
+  
+  email:
+    provider: "gmail"
+    scopes: ["https://www.googleapis.com/auth/gmail.readonly"]
+    max_emails: 50
+  
+  notes:
+    provider: "notion"
+    databases:
+      - name: "任务列表"
+        id: "${NOTION_TASKS_DB_ID}"
+      - name: "笔记"
+        id: "${NOTION_NOTES_DB_ID}"
+  
+  files:
+    provider: "local"
+    paths:
+      - "~/Documents"
+      - "~/Projects"
+    file_types: [".md", ".txt", ".pdf", ".docx"]
+
+# 工具配置
+tools:
+  scheduling:
+    enabled: true
+    default_reminder: 15  # 提前15分钟提醒
+  
+  search:
+    enabled: true
+    engines: ["google", "bing"]
+    max_results: 10
+  
+  translation:
+    enabled: true
+    default_source: "auto"
+    default_target: "zh-CN"
+
+# 隐私和安全
+privacy:
+  data_retention: "30d"
+  encryption: true
+  local_processing: true
+  no_cloud_storage: true
+
+# 个性化设置
+personalization:
+  language: "zh-CN"
+  timezone: "Asia/Shanghai"
+  working_hours:
+    start: "09:00"
+    end: "18:00"
+    days: ["monday", "tuesday", "wednesday", "thursday", "friday"]
+```
+
+### 4. 配置最佳实践
+
+#### 环境变量管理
+
+```bash
+# .env 文件示例
+MCP_SERVER_NAME=my-mcp-server
+MCP_AUTH_TOKEN=your-secret-token
+DATABASE_URL=postgresql://user:pass@localhost/db
+REDIS_URL=redis://localhost:6379
+
+# API 密钥
+GITHUB_TOKEN=ghp_xxxxxxxxxxxx
+NOTION_API_KEY=secret_xxxxxxxxxxxx
+OPENAI_API_KEY=sk-xxxxxxxxxxxx
+```
+
+#### 配置加载策略
+
+```python
+import os
+from pathlib import Path
+import yaml
+import json
+
+class MCPConfig:
+    def __init__(self, config_path: str = None):
+        self.config_path = config_path or self._find_config()
+        self.config = self._load_config()
+        self._apply_env_overrides()
+    
+    def _find_config(self) -> Path:
+        """按优先级查找配置文件"""
+        search_paths = [
+            Path("./mcp_config.yaml"),
+            Path("./mcp_config.json"),
+            Path.home() / ".config" / "mcp" / "config.yaml",
+            Path("/etc/mcp/config.yaml")
+        ]
+        
+        for path in search_paths:
+            if path.exists():
+                return path
+        
+        raise FileNotFoundError("未找到 MCP 配置文件")
+    
+    def _load_config(self) -> dict:
+        """加载配置文件"""
+        with open(self.config_path) as f:
+            if self.config_path.suffix in ['.yaml', '.yml']:
+                return yaml.safe_load(f)
+            else:
+                return json.load(f)
+    
+    def _apply_env_overrides(self):
+        """应用环境变量覆盖"""
+        # 支持 MCP_ 前缀的环境变量
+        for key, value in os.environ.items():
+            if key.startswith("MCP_"):
+                config_key = key[4:].lower().replace("_", ".")
+                self._set_nested(self.config, config_key, value)
+    
+    def _set_nested(self, obj: dict, key: str, value: str):
+        """设置嵌套配置值"""
+        keys = key.split(".")
+        for k in keys[:-1]:
+            obj = obj.setdefault(k, {})
+        obj[keys[-1]] = value
+    
+    def get(self, key: str, default=None):
+        """获取配置值"""
+        keys = key.split(".")
+        value = self.config
+        for k in keys:
+            if isinstance(value, dict):
+                value = value.get(k)
+            else:
+                return default
+        return value if value is not None else default
+```
+
+#### 配置验证
+
+```python
+from pydantic import BaseModel, Field
+from typing import Optional, List
+from enum import Enum
+
+class LogLevel(str, Enum):
+    DEBUG = "debug"
+    INFO = "info"
+    WARNING = "warning"
+    ERROR = "error"
+
+class SecurityConfig(BaseModel):
+    authentication_type: str = "bearer_token"
+    rate_limit_enabled: bool = True
+    max_requests_per_minute: int = Field(ge=1, le=1000, default=60)
+
+class ServerConfig(BaseModel):
+    name: str = Field(min_length=1, max_length=50)
+    version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
+    description: Optional[str] = None
+    debug: bool = False
+
+class MCPConfigSchema(BaseModel):
+    server: ServerConfig
+    security: SecurityConfig = SecurityConfig()
+    log_level: LogLevel = LogLevel.INFO
+    
+    class Config:
+        validate_assignment = True
+```
+
+---
+
 ## 总结
 
 ### MCP 应用设计原则
