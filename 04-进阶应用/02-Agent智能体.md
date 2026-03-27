@@ -499,6 +499,203 @@ if __name__ == "__main__":
     print(f"\n最终文章: {final_article}")
 ```
 
+## Agent 配置与部署
+
+### 1. Agent 配置模板
+
+**基础配置文件：** `agent_config.yaml`
+
+```yaml
+agent:
+  name: "智能助手"
+  version: "1.0.0"
+  description: "基于 LLM 的智能 Agent"
+
+# LLM 配置
+llm:
+  provider: "openai"  # openai, anthropic, local
+  model: "gpt-4"
+  temperature: 0.7
+  max_tokens: 2000
+  api_key: "${OPENAI_API_KEY}"
+
+# 记忆配置
+memory:
+  type: "hybrid"  # short_term, long_term, hybrid
+  short_term:
+    max_tokens: 4000
+    window_size: 10  # 保留最近10轮对话
+  long_term:
+    storage: "chroma"  # chroma, pinecone, local
+    collection: "agent_memory"
+    embedding_model: "text-embedding-ada-002"
+
+# 工具配置
+tools:
+  enabled: true
+  list:
+    - name: "web_search"
+      description: "搜索互联网获取信息"
+      parameters:
+        query: "string"
+    
+    - name: "calculator"
+      description: "执行数学计算"
+      parameters:
+        expression: "string"
+    
+    - name: "file_manager"
+      description: "管理本地文件"
+      parameters:
+        action: "string"  # read, write, list
+        path: "string"
+
+# 规划配置
+planning:
+  strategy: "react"  # react, cot, tot
+  max_steps: 10
+  reflection_enabled: true
+
+# 安全配置
+safety:
+  content_filter: true
+  max_tool_calls_per_minute: 30
+  allowed_domains: ["google.com", "wikipedia.org"]
+  blocked_actions: ["delete_file", "send_email"]
+
+# 日志配置
+logging:
+  level: "info"
+  file: "./logs/agent.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+```
+
+### 2. 部署配置
+
+**Docker 部署：** `Dockerfile`
+
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 安装依赖
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制代码
+COPY . .
+
+# 创建日志目录
+RUN mkdir -p logs
+
+# 设置环境变量
+ENV PYTHONUNBUFFERED=1
+ENV AGENT_ENV=production
+
+# 暴露端口
+EXPOSE 8000
+
+# 启动命令
+CMD ["python", "agent_server.py"]
+```
+
+**Docker Compose：** `docker-compose.yaml`
+
+```yaml
+version: '3.8'
+
+services:
+  agent:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - AGENT_ENV=production
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      - redis
+      - chroma
+  
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+  
+  chroma:
+    image: chromadb/chroma:latest
+    ports:
+      - "8001:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  redis_data:
+  chroma_data:
+```
+
+### 3. 环境变量配置
+
+**.env 文件：**
+
+```bash
+# LLM 配置
+OPENAI_API_KEY=sk-xxxxxxxxxxxx
+ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxxxx
+
+# 数据库配置
+REDIS_URL=redis://localhost:6379
+CHROMA_URL=http://localhost:8001
+
+# Agent 配置
+AGENT_NAME=my-agent
+AGENT_ENV=development
+LOG_LEVEL=debug
+
+# 安全配置
+ALLOWED_DOMAINS=google.com,wikipedia.org,github.com
+MAX_REQUESTS_PER_MINUTE=60
+```
+
+### 4. 监控与告警
+
+**Prometheus 配置：**
+
+```yaml
+# prometheus.yml
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'agent'
+    static_configs:
+      - targets: ['localhost:8000']
+    metrics_path: '/metrics'
+
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['localhost:9121']
+
+  - job_name: 'chroma'
+    static_configs:
+      - targets: ['localhost:8001']
+```
+
+**Grafana 仪表盘指标：**
+
+- Agent 响应时间
+- 工具调用成功率
+- Token 使用量
+- 错误率
+- 内存使用情况
+
+---
+
 ## 练习题
 
 ### 基础题
