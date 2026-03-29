@@ -512,7 +512,52 @@ async def logged_operation(param: str) -> str:
         raise
 ```
 
-### 5. 配置管理
+### 5. 调试技巧
+
+**使用 MCP Inspector 调试：**
+
+```bash
+# 启动 Inspector 连接你的服务器
+npx @modelcontextprotocol/inspector python my_server.py
+
+# 指定配置文件调试
+npx @modelcontextprotocol/inspector --config config.json --server my-server
+```
+
+**在代码中添加调试模式：**
+
+```python
+import sys
+import json
+
+@mcp.tool()
+async def debug_tool(param: str) -> str:
+    """带调试输出的工具。"""
+    # 输出到 stderr，不影响 MCP 通信
+    print(f"[DEBUG] 收到参数: {param}", file=sys.stderr)
+    
+    # 打印完整的调用栈
+    import traceback
+    traceback.print_stack(file=sys.stderr)
+    
+    return f"处理完成: {param}"
+
+# 服务器启动时检查是否处于调试模式
+if "--debug" in sys.argv:
+    logging.getLogger().setLevel(logging.DEBUG)
+    print("[DEBUG] 调试模式已启用", file=sys.stderr)
+```
+
+**常见调试问题及解决方案：**
+
+| 问题 | 原因 | 解决方案 |
+|------|------|---------|
+| 工具不显示 | 描述不清晰 | 检查 docstring 是否完整 |
+| 调用无响应 | 异步函数未 await | 确保所有 async 函数正确使用 |
+| 参数解析失败 | 类型标注错误 | 使用 type hints 和 Pydantic 验证 |
+| 连接断开 | 超时或阻塞 | 避免长时间阻塞操作，使用异步 I/O |
+
+### 6. 配置管理
 
 ```python
 import os

@@ -114,6 +114,14 @@ llm-knowledge-base/
 
 ---
 
+## 🆕 2026-03-30 更新
+
+- ✅ 更新前沿技术章节：添加 2026 年最新模型版本信息（GPT-4o、Gemini 2.0、Claude 3.5 等）
+- ✅ 新增 KV Cache 优化技巧：PagedAttention、GQA/MQA、量化 KV Cache
+- ✅ 新增 MCP 调试技巧：Inspector 使用方法、常见问题排查
+- ✅ 更新推理框架信息：新增 SGLang、完善 vLLM 投机采样示例
+- ✅ 更新开源项目星标数据和新项目（Dify、LangGraph 等）
+
 ## 🆕 2026-03-28 更新
 
 - ✅ 新增 RAG 完整工作流示例（端到端实现 + 配置模板 + 自动化脚本）
