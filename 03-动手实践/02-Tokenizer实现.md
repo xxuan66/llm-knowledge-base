@@ -473,3 +473,290 @@ if __name__ == "__main__":
 - Byte Pair Encoding Explained - BPE 图解
 - The Illustrated Word2vec - 子词可视化
 - Hugging Face Tokenizers Course - Tokenizer 教程
+
+---
+
+## Tokenizer 训练工作流
+
+### 训练自定义 Tokenizer
+
+```python
+"""
+Tokenizer 训练工作流
+支持 BPE、WordPiece、Unigram 三种训练方式
+"""
+import os
+import json
+from pathlib import Path
+from typing import List, Optional
+from dataclasses import dataclass, field
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class TokenizerConfig:
+    """Tokenizer 配置"""
+    # 训练数据
+    corpus_files: List[str]
+    output_dir: str = "./tokenizer"
+    
+    # 模型配置
+    model_type: str = "BPE"  # BPE, WordPiece, Unigram
+    vocab_size: int = 32000
+    min_frequency: int = 2
+    
+    # 特殊 token
+    special_tokens: List[str] = field(default_factory=lambda: [
+        "<pad>", "<unk>", "<s>", "</s>", "<mask>"
+    ])
+    
+    # 预分词
+    pre_tokenizer: str = "byte_level"  # byte_level, whitespace, None
+
+
+class TokenizerTrainer:
+    """Tokenizer 训练器"""
+    
+    def __init__(self, config: TokenizerConfig):
+        self.config = config
+        self._ensure_output_dir()
+    
+    def _ensure_output_dir(self):
+        """确保输出目录存在"""
+        Path(self.config.output_dir).mkdir(parents=True, exist_ok=True)
+    
+    def train_bpe(self):
+        """训练 BPE Tokenizer"""
+        from tokenizers import Tokenizer, models, pre_tokenizers, trainers
+        
+        # 创建 tokenizer
+        tokenizer = Tokenizer(models.BPE(unk_token="<unk>"))
+        
+        # 设置预分词器
+        if self.config.pre_tokenizer == "byte_level":
+            tokenizer.pre_tokenizer = pre_tokenizers.ByteLevel(add_prefix_space=False)
+        
+        # 创建训练器
+        trainer = trainers.BpeTrainer(
+            vocab_size=self.config.vocab_size,
+            min_frequency=self.config.min_frequency,
+            special_tokens=self.config.special_tokens,
+            show_progress=True
+        )
+        
+        # 训练
+        logger.info(f"开始训练 BPE Tokenizer，词表大小: {self.config.vocab_size}")
+        tokenizer.train(self.config.corpus_files, trainer)
+        
+        return tokenizer
+    
+    def train_wordpiece(self):
+        """训练 WordPiece Tokenizer"""
+        from tokenizers import Tokenizer, models, pre_tokenizers, trainers
+        
+        # 创建 tokenizer
+        tokenizer = Tokenizer(models.WordPiece(unk_token="<unk>"))
+        
+        # 设置预分词器
+        if self.config.pre_tokenizer == "whitespace":
+            tokenizer.pre_tokenizer = pre_tokenizers.Whitespace()
+        
+        # 创建训练器
+        trainer = trainers.WordPieceTrainer(
+            vocab_size=self.config.vocab_size,
+            min_frequency=self.config.min_frequency,
+            special_tokens=self.config.special_tokens,
+            show_progress=True
+        )
+        
+        # 训练
+        logger.info(f"开始训练 WordPiece Tokenizer，词表大小: {self.config.vocab_size}")
+        tokenizer.train(self.config.corpus_files, trainer)
+        
+        return tokenizer
+    
+    def train_unigram(self):
+        """训练 Unigram Tokenizer"""
+        from tokenizers import Tokenizer, models, pre_tokenizers, trainers
+        
+        # 创建 tokenizer
+        tokenizer = Tokenizer(models.Unigram())
+        
+        # 创建训练器
+        trainer = trainers.UnigramTrainer(
+            vocab_size=self.config.vocab_size,
+            special_tokens=self.config.special_tokens,
+            show_progress=True
+        )
+        
+        # 训练
+        logger.info(f"开始训练 Unigram Tokenizer，词表大小: {self.config.vocab_size}")
+        tokenizer.train(self.config.corpus_files, trainer)
+        
+        return tokenizer
+    
+    def train(self) -> str:
+        """执行训练"""
+        # 选择训练方式
+        if self.config.model_type == "BPE":
+            tokenizer = self.train_bpe()
+        elif self.config.model_type == "WordPiece":
+            tokenizer = self.train_wordpiece()
+        elif self.config.model_type == "Unigram":
+            tokenizer = self.train_unigram()
+        else:
+            raise ValueError(f"不支持的模型类型: {self.config.model_type}")
+        
+        # 保存 tokenizer
+        output_path = Path(self.config.output_dir) / "tokenizer.json"
+        tokenizer.save(str(output_path))
+        logger.info(f"Tokenizer 保存到: {output_path}")
+        
+        # 保存配置
+        config_path = Path(self.config.output_dir) / "config.json"
+        with open(config_path, "w") as f:
+            json.dump({
+                "model_type": self.config.model_type,
+                "vocab_size": self.config.vocab_size,
+                "special_tokens": self.config.special_tokens
+            }, f, indent=2)
+        
+        # 保存词表
+        vocab_path = Path(self.config.output_dir) / "vocab.json"
+        vocab = tokenizer.get_vocab()
+        with open(vocab_path, "w", encoding="utf-8") as f:
+            json.dump(vocab, f, ensure_ascii=False, indent=2)
+        
+        logger.info(f"词表大小: {len(vocab)}")
+        return str(output_path)
+    
+    def evaluate(self, tokenizer, test_texts: List[str]):
+        """评估 Tokenizer"""
+        logger.info("评估 Tokenizer...")
+        
+        total_tokens = 0
+        total_chars = 0
+        
+        for text in test_texts:
+            encoded = tokenizer.encode(text)
+            total_tokens += len(encoded.ids)
+            total_chars += len(text)
+        
+        # 计算压缩率
+        compression_ratio = total_chars / total_tokens if total_tokens > 0 else 0
+        
+        logger.info(f"测试文本数: {len(test_texts)}")
+        logger.info(f"总字符数: {total_chars}")
+        logger.info(f"总 Token 数: {total_tokens}")
+        logger.info(f"压缩率: {compression_ratio:.2f} chars/token")
+        
+        return {
+            "num_texts": len(test_texts),
+            "total_chars": total_chars,
+            "total_tokens": total_tokens,
+            "compression_ratio": compression_ratio
+        }
+
+
+# 使用示例
+if __name__ == "__main__":
+    # 配置
+    config = TokenizerConfig(
+        corpus_files=["./data/train.txt"],
+        output_dir="./tokenizer",
+        model_type="BPE",
+        vocab_size=32000,
+        special_tokens=["<pad>", "<unk>", "<s>", "</s>"]
+    )
+    
+    # 训练
+    trainer = TokenizerTrainer(config)
+    output_path = trainer.train()
+    
+    # 加载并测试
+    from tokenizers import Tokenizer
+    tokenizer = Tokenizer.from_file(output_path)
+    
+    # 测试编码
+    test_text = "大语言模型是人工智能的重要应用。"
+    encoded = tokenizer.encode(test_text)
+    print(f"原文: {test_text}")
+    print(f"Tokens: {encoded.tokens}")
+    print(f"IDs: {encoded.ids}")
+    print(f"解码: {tokenizer.decode(encoded.ids)}")
+```
+
+### Tokenizer 评估脚本
+
+```python
+"""
+Tokenizer 评估脚本
+用于比较不同 Tokenizer 的性能
+"""
+from tokenizers import Tokenizer
+from typing import List, Dict
+import json
+
+
+def evaluate_tokenizer(tokenizer_path: str, test_file: str) -> Dict:
+    """评估单个 Tokenizer"""
+    # 加载 tokenizer
+    tokenizer = Tokenizer.from_file(tokenizer_path)
+    
+    # 加载测试数据
+    with open(test_file, encoding="utf-8") as f:
+        texts = [line.strip() for line in f if line.strip()]
+    
+    # 计算指标
+    total_chars = sum(len(t) for t in texts)
+    total_tokens = sum(len(tokenizer.encode(t).ids) for t in texts)
+    
+    return {
+        "vocab_size": tokenizer.get_vocab_size(),
+        "num_texts": len(texts),
+        "total_chars": total_chars,
+        "total_tokens": total_tokens,
+        "compression_ratio": total_chars / total_tokens,
+        "avg_tokens_per_text": total_tokens / len(texts)
+    }
+
+
+def compare_tokenizers(tokenizer_paths: List[str], test_file: str):
+    """比较多个 Tokenizer"""
+    results = []
+    
+    for path in tokenizer_paths:
+        metrics = evaluate_tokenizer(path, test_file)
+        metrics["path"] = path
+        results.append(metrics)
+    
+    # 打印比较结果
+    print("\n" + "=" * 60)
+    print("Tokenizer 比较结果")
+    print("=" * 60)
+    
+    for r in results:
+        print(f"\n{r['path']}:")
+        print(f"  词表大小: {r['vocab_size']:,}")
+        print(f"  压缩率: {r['compression_ratio']:.2f} chars/token")
+        print(f"  平均 Token 数: {r['avg_tokens_per_text']:.1f}")
+    
+    return results
+
+
+# 使用示例
+if __name__ == "__main__":
+    tokenizers = [
+        "./tokenizer-bpe/tokenizer.json",
+        "./tokenizer-wordpiece/tokenizer.json",
+    ]
+    
+    compare_tokenizers(tokenizers, "./data/test.txt")
+```
+
+---
+
+**更新日期：** 2026-03-30
