@@ -12,7 +12,7 @@
 | Mixtral 8x7B | 2023.12 | 47B | 12B | 32K | MoE 架构 |
 | Mixtral 8x22B | 2024.04 | 141B | 39B | 64K | 更大 MoE |
 | Mistral Small | 2024.09 | ~20B | ~20B | 32K | 商用模型 |
-| Mistral Large | 2024.09 | ~120B | ~120B | 128K | 旗舰模型 |
+| Mistral Large | 2024.09 | ~120B | ~120B | 128K | 大模型版本 |
 
 ## 先看这个系列为什么值得关注
 
@@ -319,7 +319,7 @@ python convert-hf-to-gguf.py mistralai/Mixtral-8x7B-v0.1
 |------|---------|------|
 | 本地运行 | Mistral 7B | 单卡可运行，性能优秀 |
 | 平衡性能 | Mixtral 8x7B | MoE 架构，GPT-3.5 水平 |
-| 企业级 | Mixtral 8x22B | 接近 GPT-4 水平 |
+| 企业级 | Mixtral 8x22B | 适合高性能复杂任务 |
 | API 服务 | Mistral Small/Large | 官方 API，稳定可靠 |
 
 ## 七、相关资源
