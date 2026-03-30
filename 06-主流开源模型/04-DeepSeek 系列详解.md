@@ -335,4 +335,4 @@ python convert-hf-to-gguf.py deepseek-ai/deepseek-coder-7b-base
 
 ---
 
-**更新日期：** 2026-03-12
+**更新日期：** 2026-03-30

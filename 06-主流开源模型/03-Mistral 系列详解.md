@@ -331,4 +331,4 @@ python convert-hf-to-gguf.py mistralai/Mixtral-8x7B-v0.1
 
 ---
 
-**更新日期：** 2026-03-12
+**更新日期：** 2026-03-30

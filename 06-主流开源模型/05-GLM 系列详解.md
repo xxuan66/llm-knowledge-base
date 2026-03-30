@@ -390,4 +390,4 @@ python convert-hf-to-gguf.py THUDM/chatglm3-6b
 
 ---
 
-**更新日期：** 2026-03-12
+**更新日期：** 2026-03-30
