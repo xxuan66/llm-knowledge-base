@@ -21,7 +21,7 @@
 
 所以 tokenizer 不是模型外的附属组件，而是模型能力的一部分。
 
-## 核心知识点
+## 1. Tokenizer 基础
 
 ### 1. Tokenizer 基础
 
